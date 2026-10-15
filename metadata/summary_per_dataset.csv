@@ -1,0 +1,26 @@
+Features/Datasets,ABCD,BE_KUL_Wave_1A,BE_KUL_Wave_1B,BE_KUL_Wave_23456,SLOfit_lifelong,SLOfit_students,YFS
+Height,✅,✅,✅,✅,✅,✅,✅
+Weight,✅,✅,✅,✅,✅,✅,✅
+Waist_circumference,✅,❌,❌,✅,✅,❌,✅
+BMI,✅,✅,✅,✅,✅,✅,✅
+Systolic_blood_pressure,✅,❌,✅,✅,❌,❌,✅
+Diastolic_blood_pressure,✅,❌,✅,✅,❌,❌,✅
+Resting_heart_rate,✅,✅,✅,✅,❌,❌,✅
+Glucose,✅,❌,❌,✅,❌,❌,✅
+Total_cholesterol,✅,❌,❌,✅,❌,❌,✅
+HDL,✅,❌,❌,✅,❌,❌,✅
+LDL,✅,❌,❌,✅,❌,❌,✅
+Triglycerides,❌,❌,❌,✅,❌,❌,✅
+Smoking,❌,❌,✅,✅,❌,❌,✅
+Fitness_speed,❌,✅,✅,✅,✅,✅,❌
+PA_h_per_w,✅,✅,✅,✅,❌,❌,✅
+Alcohol,❌,❌,❌,✅,❌,❌,✅
+Diabetes,❌,❌,❌,✅,✅,❌,✅
+Sleep,✅,❌,✅,✅,❌,❌,❌
+Diet_HHS,✅,❌,❌,✅,❌,❌,✅
+Diet_T2P,✅,❌,❌,✅,❌,❌,✅
+Full percent,59%,94%,66%,59%,77%,100%,72%
+Number of people,2468,5562,569,306,332,5261,3465
+Min to max age,5.0 to 13.3,11.3 to 24.6,5.7 to 19.9,30.0 to 60.0,5.8 to 90.9,5.8 to 22.4,2.7 to 58.1
+Age range (mean-std to mean+std),5.4 to 11.6,13.5 to 17.3,10.2 to 16.7,33.4 to 50.4,8.6 to 47.3,9.3 to 16.9,11.2 to 39.3
+Average number of measurements per person (std),2.0 (0.0),3.3 (1.4),2.0 (0.0),3.3 (1.3),3.4 (3.0),13.0 (0.0),6.1 (2.0)

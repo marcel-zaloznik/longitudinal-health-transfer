@@ -1,0 +1,26 @@
+column,description
+Origin,From which original dataset
+Country,Country of origin
+PersonID,Original dataset + ID number
+Sex,"Male, Female"
+Age,In years
+Height,In cm
+Weight,In kg
+Waist_circumference,In cm
+BMI,In kg/m^2
+Systolic_blood_pressure,In mmHg
+Diastolic_blood_pressure,In mmHg
+Resting_heart_rate,In bpm
+Glucose,In mmol/L
+Total_cholesterol,In mmol/L
+HDL,In mmol/L
+LDL,In mmol/L
+Triglycerides,In mmol/L
+Smoking,"No, Yes, Quit/strike"
+Fitness_speed,Fitness in shuttle run final speed
+PA_h_per_w,Physical activity in h/w
+Alcohol,In g/day
+Diabetes,"No, Yes"
+Sleep,In h/night
+Diet_HHS,
+Diet_T2P,
