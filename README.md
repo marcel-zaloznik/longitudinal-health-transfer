@@ -56,6 +56,15 @@ Ranking uses public cohort metadata and checks the frozen source order. Full tra
 
 Derived data go to `data/`; errors and analysis outputs go to `results/`.
 
+## Citation
+
+The software release accompanying the manuscript is archived on Zenodo:
+
+**DOI:** [10.5281/zenodo.23413371](https://doi.org/10.5281/zenodo.23413371)
+
+Please cite this archived release when using the software. The `main` branch
+may contain changes made after the archived release.
+
 ## Licence
 
 MIT, copyright 2026 Jožef Stefan Institute (IJS). See `LICENSE` and `THIRD_PARTY_NOTICES.md`. The software licence does not grant access to or redistribution rights for the private datasets.
