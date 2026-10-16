@@ -1,0 +1,27 @@
+cff-version: 1.2.0
+message: "Please cite the archived software version used in your research."
+type: software
+title: "longitudinal-health-transfer: Transfer learning for longitudinal health prediction"
+version: 1.0.0
+license: MIT
+authors:
+  - family-names: "Založnik"
+    given-names: "Marcel"
+    affiliation: "Jožef Stefan Institute, Ljubljana, Slovenia"
+  - family-names: "Luštrek"
+    given-names: "Mitja"
+    affiliation: "Jožef Stefan Institute, Ljubljana, Slovenia"
+url: "https://github.com/marcel-zaloznik/longitudinal-health-transfer"
+abstract: >-
+  Research software accompanying the study "Transfer learning for irregular
+  longitudinal multi-target health prediction across heterogeneous datasets".
+  Provides preprocessing, baseline and neural models, evaluation, and
+  transfer-analysis workflows for irregular longitudinal multi-target health
+  prediction across seven harmonized datasets. Participant-level data are
+  not included.
+keywords:
+  - transfer learning
+  - longitudinal health prediction
+  - multi-target regression
+  - irregular time series
+  - missing data
