@@ -86,9 +86,8 @@ are recreated by `prepare_data.py`, not distributed as participant-ID lists.
 
 ## Citation
 
-Code version: **1.1.0**. Cite the version-specific Zenodo record for the release
-used. The earlier v1.0.0 archive is
-[10.5281/zenodo.23413371](https://doi.org/10.5281/zenodo.23413371).
+Code version: **1.1.0**. The archived release is
+[10.5281/zenodo.24377649](https://doi.org/10.5281/zenodo.24377649).
 The `main` branch may differ from an archived release.
 
 ## Licence
