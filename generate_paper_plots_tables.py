@@ -1832,7 +1832,7 @@ FIGURES = [('main', 'figure_1_model_input_and_prediction', 'fig:strats_pipeline'
  ('main', 'figure_6_outcome_specific_transfer', 'fig:figure_S2_attribute_specific_transfer'),
  ('supplementary', 'figure_S1_dataset_learning_curves', 'fig:supp_dataset_learning_curves')]
 
-# Captions synchronized with Paper/current paper; no manuscript is read at runtime.
+# Manuscript captions; no manuscript files are read at runtime.
 FIGURE_CAPTIONS = {
     'fig:strats_pipeline': (
         r"STraTS input representation and multi-target prediction.",
@@ -2168,7 +2168,7 @@ def write_main_tables(paths: ProjectPaths, data: StudyData, results: DerivedResu
         r"Growth Study; SD, standard deviation."
     ))
 
-    # Reviewer 1, comment 4: an available attribute is not always evaluated.
+    # An available attribute is not always eligible for evaluation.
     eligibility = extra["eligibility"]
     marks = {(r.dataset, r.attribute): (r"\rlap{$^{\dagger}$}" if r.n_eligible == 0 else r"\rlap{$^{\ddagger}$}")
              for r in eligibility.itertuples() if r.n_eligible < r.n_folds}
@@ -2237,7 +2237,7 @@ def write_main_tables(paths: ProjectPaths, data: StudyData, results: DerivedResu
                                     r[f"gain_{pct}_ci95_high"])]
         rows.append(cells)
 
-    # Reviewer 1, comment 1: the same gains measured against the best target-only model.
+    # Gains relative to the best target-only model.
     best = extra["best_target_only"]
     best_names = [MODEL_NAMES_IN_TEXT[one_row(best, base_configuration_id=TRANSFER_MODELS[0],
                                               train_data_percent=pct).best_target_only]
@@ -2316,7 +2316,7 @@ def write_main_tables(paths: ProjectPaths, data: StudyData, results: DerivedResu
         rf"provided in Additional file 1, {supp_ref('panel_errors')}."
     ))
 
-    # Editor comment 2 and the reviewers' experiments: one aggregate summary in the main paper.
+    # Aggregate summary of the four sensitivity analyses.
     summary = extra["additional_analyses"]
     rows = []
     for analysis, heading in ADDITIONAL_ANALYSES:
@@ -2826,15 +2826,12 @@ def draw_outcome_gains(paths: ProjectPaths, results: DerivedResults,
 
 
 def write_figure_legends(paths: ProjectPaths, formats: Sequence[str]) -> Path:
-    """Revised captions and widths; labels and Overleaf paths are unchanged."""
+    """Write LaTeX figure blocks with manuscript captions and paths."""
     fmt = "pdf" if "pdf" in formats else formats[0]
     lines = [
-        "% Figure blocks synchronized with the supplied Paper/current paper LaTeX.",
-        "% All captions, labels, inclusion widths and placements match that version.",
-        "% Figure artwork is unchanged; all seven figures use width=\\textwidth.",
-        "% The older filenames are intentionally retained; manuscript numbering comes from LaTeX.",
-        "% Upload paths below match the current Overleaf project, using lowercase figures/main/.",
-        "% See file_placement.txt for the mapping from this folder's lowercase figures/ outputs.",
+        "% Figure blocks for the manuscript and supplementary material.",
+        "% Figure paths are relative to the manuscript directory.",
+        "% See file_placement.txt for the output layout.",
         "",
     ]
     for scope, stem, label in FIGURES:
@@ -2843,7 +2840,7 @@ def write_figure_legends(paths: ProjectPaths, formats: Sequence[str]) -> Path:
         placement = FIGURE_PLACEMENT[label]
         overleaf_path = Path(placement["overleaf_path"]).with_suffix("." + fmt).as_posix()
         if scope == "supplementary":
-            lines += ["% Supplementary figure: already embedded in supplementary_information.tex."]
+            lines += ["% Supplementary figure."]
         lines += [rf"\begin{{figure}}[{placement['placement']}]", r"\centering",
                   rf"\includegraphics[width={placement['width']}]{{{overleaf_path}}}",
                   rf"\caption{{{caption}}}", rf"\label{{{label}}}", r"\end{figure}", ""]
@@ -2889,39 +2886,47 @@ GAIN_NOTE = (
     r"(10\,000 resamples). Positive gains indicate improvement."
 )
 
-# (key, file stem, change against the submitted supplement). The position is
-# the table number, and every reference to a supplementary table is built from
-# this list. Tables S1-S7 and S9-S13 keep their submitted numbers: the removed
-# observation-limit table (formerly S8) is replaced by a new table, and the
-# other new tables follow S13.
+# (key, file stem, description). List position determines the table number
+# and all supplementary table references.
 SUPPLEMENTARY_TABLES = [
     ("horizons", "table_S1_dataset_and_horizon_details",
-     "changed: share of all pairs and horizon-group shares added (Reviewer 1.3)"),
-    ("baselines", "table_S2_conventional_baselines", "unchanged"),
-    ("source_order", "table_S3_fixed_source_order", "unchanged"),
-    ("dataset_gains", "table_S4_dataset_specific_transfer", "unchanged"),
-    ("ranking_by_target", "table_S5_ranking_by_target", "training-fraction wording only"),
-    ("outcome_gains", "table_S6_outcome_specific_transfer", "unchanged"),
-    ("horizon_gains", "table_S7_horizon_specific_transfer", "unchanged"),
+     "Dataset sizes and forecast horizons"),
+    ("baselines", "table_S2_conventional_baselines",
+     "Conventional baselines"),
+    ("source_order", "table_S3_fixed_source_order",
+     "Fixed source order"),
+    ("dataset_gains", "table_S4_dataset_specific_transfer",
+     "Dataset-specific transfer gains"),
+    ("ranking_by_target", "table_S5_ranking_by_target",
+     "Source ranking by target"),
+    ("outcome_gains", "table_S6_outcome_specific_transfer",
+     "Outcome-specific transfer gains"),
+    ("horizon_gains", "table_S7_horizon_specific_transfer",
+     "Horizon-specific transfer gains"),
     ("excluded_cells", "table_S8_excluded_evaluation_cells",
-     "NEW, replaces the observation-limit table: cells that failed the eligibility rule (Reviewer 1.4)"),
-    ("panel_errors", "table_S9_panel_absolute_errors", "evaluation-panel wording only"),
-    ("learning_curves", "table_S10_neural_learning_curves", "training-fraction wording only"),
-    ("dataset_errors", "table_S11_dataset_absolute_errors", "unchanged"),
-    ("source_count", "table_S12_source_count_results", "training-fraction wording only"),
-    ("single_source", "table_S13_single_source_results", "training-fraction wording only"),
+     "Dataset-attribute combinations excluded by the eligibility rule"),
+    ("panel_errors", "table_S9_panel_absolute_errors",
+     "Absolute errors by evaluation panel"),
+    ("learning_curves", "table_S10_neural_learning_curves",
+     "Neural learning curves"),
+    ("dataset_errors", "table_S11_dataset_absolute_errors",
+     "Dataset-specific absolute errors"),
+    ("source_count", "table_S12_source_count_results",
+     "Number-of-sources analysis"),
+    ("single_source", "table_S13_single_source_results",
+     "Single-source transfer"),
     ("downsampling", "table_S14_slofit_students_downsampling",
-     "NEW: SLOfit students before and after downsampling (Reviewers 1.3 and 2.4)"),
+     "SLOfit students before and after downsampling"),
     ("source_exclusion", "table_S15_source_exclusion_sensitivity",
-     "current manuscript wording: main-analysis references; numerical content unchanged"),
+     "Source-exclusion sensitivity"),
     ("learning_rate", "table_S16_learning_rate_sensitivity",
-     "current manuscript wording: main-analysis references; numerical content unchanged"),
+     "Target-only learning-rate sensitivity"),
     ("normalization", "table_S17_scale_consistent_transfer",
-     "current manuscript wording: main-analysis procedure; numerical content unchanged"),
+     "Scale-consistent transfer"),
     ("grud_transfer", "table_S18_grud_transfer",
-     "NEW: Experiment 4, GRU-D transfer (Reviewers 2.1 and 3.2)"),
+     "GRU-D transfer"),
     ("original_units", "table_S19_original_units_calibration",
-     "NEW: errors in original units and calibration (Reviewers 2.5 and 3.5)"),
+     "Original-unit errors and calibration"),
 ]
 
 
@@ -3168,7 +3173,7 @@ def compute_supplementary_results(data: StudyData, results: DerivedResults) -> d
 
 
 # ---------------------------------------------------------------------------
-# SLOfit students before and after downsampling (Reviewers 1.3 and 2.4).
+# SLOfit students before and after downsampling.
 # ---------------------------------------------------------------------------
 
 @dataclass
@@ -3519,7 +3524,7 @@ def write_supplementary_tables(
     emit("horizon_gains", "All-source pooling and pretraining gains by forecast horizon", "tab:supp_horizon_gain",
          r"@{}lrrrr@{}", 5, [h.replace("Outcome", "Horizon") for h in gain_header], rows, horizon_note)
 
-    # Reviewer 1, comment 4: which available cells failed the eligibility rule.
+    # Structurally available cells that failed the eligibility rule.
     eligibility = extra["eligibility"]
     rows = []
     for r in eligibility[eligibility.n_eligible < eligibility.n_folds].itertuples():
@@ -3630,7 +3635,7 @@ def write_supplementary_tables(
          r"STraTS within target dataset and run; positive values indicate improvement. "
          r"Source and target are always different datasets.")
 
-    # Reviewers 1.3 and 2.4: how SLOfit students was downsampled and what was retained.
+    # SLOfit student downsampling and retained observations.
     sample: DownsamplingSummary = extra["downsampling"]
     sampled_label = DATASET_LABELS[DOWNSAMPLED_DATASET]
 
@@ -3671,7 +3676,7 @@ def write_supplementary_tables(
          "The selection was deterministic and used no random seed. Completeness and attribute means (SD) "
          "are calculated over all visits.")
 
-    # Editor comment 2 (Experiment 1).
+    # Source-exclusion sensitivity.
     affected = [d for d in DATASET_ORDER if d in revision.exclusions]
     rows = []
     for mode, title in [("pretrain", "Pretraining"), ("pooled", "Pooled training")]:
@@ -3708,7 +3713,7 @@ def write_supplementary_tables(
          "error after exclusion. Exclusion removes whole source cohorts, which also changes the amount and "
          "composition of the source data; it does not identify individual participants.")
 
-    # Reviewer 1, comment 2 (Experiment 2).
+    # Target-only learning-rate sensitivity.
     def rows_by_fraction(columns: int, dataset_cells: Any) -> list[Any]:
         """Seven datasets and their equal-weight mean, once per training fraction."""
         block: list[Any] = []
@@ -3750,7 +3755,7 @@ def write_supplementary_tables(
          "all-source pooled and pretrained STraTS with target-only STraTS at the selected rate. The main-analysis "
          r"target-only STraTS used $10^{-4}$; the values in this table are a rerun with different seeding.")
 
-    # Reviewers 2.2 and 3.3 (Experiment 3).
+    # Scale-consistent transfer.
     def scale_cells(d: str | None, pct: int) -> list[str]:
         r = (one_row(revision.scale_macro, percent=pct) if d is None
              else one_row(revision.scale_by_dataset, target=d, percent=pct))
@@ -3774,7 +3779,7 @@ def write_supplementary_tables(
          "of the paired run differences; negative values favour scale consistency. Gains are relative to "
          f"target-only STraTS at the validation-selected learning rate ({supp_ref('learning_rate')}).")
 
-    # Reviewers 2.1 and 3.2 (Experiment 4).
+    # GRU-D transfer.
     grud_excluded = grud_excluded_sources(revision)
 
     def grud_cells(d: str | None, pct: int) -> list[str]:
@@ -3797,7 +3802,7 @@ def write_supplementary_tables(
          f"{supp_ref('learning_curves')}. Difference is pretrained minus target-only, mean (SD) of the paired "
          r"run differences; negative values favour transfer. Gain (\%) is the relative reduction of the mean NRMSE.")
 
-    # Reviewers 2.5 and 3.5: errors in original units and calibration of the GRU-D models.
+    # GRU-D errors in original units and calibration.
     units = revision.grud_units[revision.grud_units["in_primary_panel"].astype(bool)]
     unit_keys = ["attribute", "target", "percent", "arm"]
     unit_means = units.groupby(unit_keys, as_index=False).agg(
@@ -3882,56 +3887,38 @@ def draw_supplementary_learning_curves(
     return save_figure(fig, paths.supplementary_figures_dir / "figure_S1_dataset_learning_curves", formats, dpi)
 
 
-MAIN_TABLES = [   # (file stem, synchronization with the supplied current manuscript)
-    ("table_1_dataset_characteristics", "current manuscript note; numerical content unchanged"),
-    ("table_2_attribute_availability", "SLOfit lifelong header and current eligibility legend"),
-    ("table_3_principal_model_comparison", "explicit STraTS gain-reference heading and current note"),
-    ("table_4_suitability_ranking", "current manuscript note; numerical content unchanged"),
-    ("table_5_outcome_panel_sensitivity", "current manuscript note; numerical content unchanged"),
-    ("table_6_additional_analyses", "blocks A-D, gain references, model labels, current note and 1.1 pt column spacing"),
+MAIN_TABLES = [   # (file stem, description)
+    ("table_1_dataset_characteristics", "Dataset characteristics"),
+    ("table_2_attribute_availability", "Attribute availability and evaluation eligibility"),
+    ("table_3_principal_model_comparison", "Principal model comparison"),
+    ("table_4_suitability_ranking", "Source suitability ranking"),
+    ("table_5_outcome_panel_sensitivity", "Outcome-panel sensitivity"),
+    ("table_6_additional_analyses", "Sensitivity analyses"),
 ]
 
 
 def write_file_placement(paths: ProjectPaths, main_tables: Sequence[Path]) -> Path:
-    """Describe the current outputs without repeating obsolete revision instructions."""
+    """List generated files and their manuscript locations."""
     if [path.stem for path in main_tables] != [stem for stem, _ in MAIN_TABLES]:
         raise ValueError("MAIN_TABLES does not list the main tables that were written.")
-    lines = ["GENERATED FILES (generator version " + SCRIPT_VERSION + ")",
-             "=====================================", "",
-             "Run from the repository root: python generate_paper_plots_tables.py",
+    lines = ["GENERATED FILES (generator version " + SCRIPT_VERSION + ")", "",
              "Outputs go to results/paper/ unless --output-dir is supplied.",
-             "Use --project-root to read inputs from another local repository copy.",
-             "No existing figures, tables or manuscript files are required as generator inputs.", "",
-             "MATCHING THE CURRENT PAPER", "--------------------------",
-             "Tables and figure blocks match the revised sn-article.tex and",
-             "supplementary_information.tex. Calculations, result values, table numbering and",
-             "figure artwork are unchanged. No manuscript file is overwritten.", "",
-             "MAIN TABLES (tables/main/)", "-------------------------",
-             "Paste each complete file over the table with the same label in sn-article.tex."]
-    lines += [f"  {stem}.tex: {change}" for stem, change in MAIN_TABLES]
-    lines += ["", "SUPPLEMENTARY TABLES (tables/supplementary/)",
-              "------------------------------------------",
-              "Paste each complete file over the group with the same table label in",
-              "supplementary_information.tex. Retain the numerical order S1-S19."]
-    lines += [f"  {stem}.tex" for _, stem, _ in SUPPLEMENTARY_TABLES]
-    lines += ["  S15-S17 use the current main-analysis wording; all other supplementary tables",
-              "  are unchanged from generator 6.0.0.", "", "FIGURES", "-------",
-              "Keep the lowercase figures/main/ and figures/supplementary/ paths when uploading",
-              "the regenerated PDFs to Overleaf. The retained filenames are not the displayed",
-              "figure numbers; LaTeX determines the numbers from manuscript order."]
+             "No manuscript files are read or overwritten.", "",
+             "MAIN TABLES (tables/main/)"]
+    lines += [f"  {stem}.tex: {description}" for stem, description in MAIN_TABLES]
+    lines += ["", "SUPPLEMENTARY TABLES (tables/supplementary/)"]
+    lines += [f"  {stem}.tex: {description}" for _, stem, description in SUPPLEMENTARY_TABLES]
+    lines += ["", "FIGURES"]
     lines += [f"  figures/{scope}/{stem}.pdf" for scope, stem, _ in FIGURES]
-    lines += ["Copy the main and supplementary figure blocks from figure_legends.tex into their",
-              "respective documents. Captions, labels, widths and placement options match the",
-              "supplied current manuscript, including the unchanged supplementary caption.", "",
-              "INPUTS", "------",
-              "  results/metrics/   aggregated main-analysis metrics",
+    lines += ["", "Use the table labels to place tables in the manuscript and supplement.",
+              "figure_legends.tex contains the LaTeX figure blocks. Keep the relative figure paths;",
+              "LaTeX determines figure numbers from manuscript order.", "",
+              "INPUTS", "  results/metrics/   aggregated main-analysis metrics",
               "  data/, metadata/summary_per_dataset.csv, strats.py",
               "  " + EXPERIMENTS_DIR.as_posix() + "/<experiment>/" + RESULTS_ARCHIVE,
-              "     aggregate revision summaries; experiment output/ folders are not needed",
-              "Run python evaluate.py --strict after changing raw errors and each experiment's summarize",
-              "step after changing its results. generation_manifest.json records input fingerprints",
-              "and library versions. Different library versions can cause minor rendering or",
-              "floating-point differences; the generator retains the original calculation order.", ""]
+              "     aggregate revision summaries; experiment output/ folders are not needed", "",
+              "After changing results, rerun evaluate.py --strict and the affected experiment's",
+              "summarize step. generation_manifest.json records input fingerprints and library versions.", ""]
     path = paths.output_dir / "file_placement.txt"
     path.write_text("\n".join(lines), encoding="utf-8")
     return path

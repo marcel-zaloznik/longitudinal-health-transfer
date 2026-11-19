@@ -1,8 +1,7 @@
 # Revision experiments
 
 Run from the repository root, after the main runs and `python evaluate.py --strict`.
-All inputs, references, splits, predictions, checkpoints and generated archives
-stay local. Do not upload the generated experiment folders or `results_to_share.zip`.
+Data and generated experiment outputs are not included in this repository.
 
 ## Run order
 
@@ -42,8 +41,8 @@ before the original float64 metric calculation.
 The scale-consistent stage needs completed source-exclusion checkpoints and
 receipts, not just aggregate tables. Its seven-target extension is required for
 the paper. Reference generation is intentionally non-overwriting; code and input
-hashes are checked on preparation and resume. Do not mix these adapted scripts
-with manifests or checkpoints from the private working-folder packages.
+hashes are checked on preparation and resume. Do not reuse manifests or
+checkpoints from a different code version.
 
 ## Tests
 
