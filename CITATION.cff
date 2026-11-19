@@ -3,6 +3,8 @@ message: "Please cite the archived software version used in your research."
 type: software
 title: "longitudinal-health-transfer: Transfer learning for longitudinal health prediction"
 version: 1.1.0
+doi: "10.5281/zenodo.24377649"
+date-released: "2026-11-19"
 license: MIT
 authors:
   - family-names: "Založnik"
