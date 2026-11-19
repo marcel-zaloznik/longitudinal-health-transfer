@@ -14,6 +14,14 @@ Original environment: Python 3.14.2. Install dependencies with:
 python -m pip install -r requirements.txt
 ```
 
+To reproduce visit cleaning and downsampling, put the authorized full harmonized
+input at `data/dataset_full.csv` and run `python preprocess_cohorts.py` first.
+This creates `data/dataset.csv`: visits within 0.5 years are resolved by
+completeness (earlier visit removed on ties), single-visit participants are
+removed, and SLOfit students are selected by observed-value count until 273566
+values are reached. File order breaks participant ties. Skip this step when
+using the existing analysis-ready input; do not reorder its rows.
+
 ## Experiments
 
 Run from the repository directory:
@@ -37,11 +45,14 @@ Paper settings use five participant-level folds. Neural seeds are 1234, 2345 and
 | STraTS | 10, 30, 50, 70, 90, 100 | Target-only; six-source pretraining and pooling |
 | STraTS top-k | 10, 50, 100 | Pretraining and pooling with `--n-origins` 1–5 |
 | STraTS single-source | 10, 100 | Each cohort as `--source-dataset`; self-transfer is skipped |
-| STraTS observation-cap analysis | 100 | Target-only and six-source pretraining with `--max-obs -1` |
+| Earlier STraTS observation-cap analysis (optional) | 100 | Target-only and six-source pretraining with `--max-obs -1` |
 | Persistence and linear regression | 10, 30, 50, 70, 90, 100 | Target-only and pooled |
 | Random forest | 10, 100 | Target-only and pooled |
 
-Single-source names and the frozen top-k order are in `ORIGIN_MAP` in `strats.py`. Other model settings use the script defaults.
+Single-source names and the frozen top-k order are in `ORIGIN_MAP` in `strats.py`. Other model settings use the script defaults. `configs/main.json` records the
+main experiment grid. `python run_main_experiments.py` prints its commands;
+add `--execute` to run them or `--job N` to select one. Existing errors are not
+silently skipped or overwritten.
 
 ## Analysis
 
@@ -52,18 +63,33 @@ python transfer_analysis.py --rank-only
 
 Evaluation summarizes available runs and rejects invalid errors. Missing ground-truth targets are not evaluated. The main metric is `main_macro_nrmse`, with `panel=primary_9` and `horizon_group=all`. Coverage is checked at dataset/fold/attribute level, not for every individual forecast.
 
-Ranking uses public cohort metadata and checks the frozen source order. Full transfer statistics (`python transfer_analysis.py`) require the complete experiment grid above. The public workflow produces analysis CSVs; final paper figures and LaTeX tables are not generated here.
+Ranking uses public cohort metadata and checks the frozen source order. The
+older full `transfer_analysis.py` workflow also requires uncapped runs; use
+`run_main_experiments.py --legacy-cap` to include those commands. They are not
+required by the revised paper's figure/table generator.
 
-Derived data go to `data/`; errors and analysis outputs go to `results/`.
+The four revision experiments and their run order are in
+[`experiments/README.md`](experiments/README.md). After completing them:
+
+```bash
+python generate_paper_plots_tables.py
+```
+
+This writes the revised paper's figures and LaTeX tables to `results/paper/`.
+It requires local main-analysis metrics, all four revision result archives,
+`data/dataset_full.csv`, the analysis-ready input and preparation outputs.
+
+Derived data go to `data/`; main errors and metrics go to `results/`; revision
+outputs stay under their experiment directories. These generated files are not
+part of the public repository. Fixed-seed splits and nested training subsets
+are recreated by `prepare_data.py`, not distributed as participant-ID lists.
 
 ## Citation
 
-The software release accompanying the manuscript is archived on Zenodo:
-
-**DOI:** [10.5281/zenodo.23413371](https://doi.org/10.5281/zenodo.23413371)
-
-Please cite this archived release when using the software. The `main` branch
-may contain changes made after the archived release.
+Code version: **1.1.0**. Cite the version-specific Zenodo record for the release
+used. The earlier v1.0.0 archive is
+[10.5281/zenodo.23413371](https://doi.org/10.5281/zenodo.23413371).
+The `main` branch may differ from an archived release.
 
 ## Licence
 

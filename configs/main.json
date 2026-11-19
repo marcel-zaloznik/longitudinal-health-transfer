@@ -1,0 +1,10 @@
+{
+  "neural_seeds": [1234, 2345, 3456],
+  "baseline_seed": 1234,
+  "training_percentages": [10, 30, 50, 70, 90, 100],
+  "topk_percentages": [10, 50, 100],
+  "topk_sources": [1, 2, 3, 4, 5],
+  "single_source_percentages": [10, 100],
+  "random_forest_percentages": [10, 100],
+  "sources": ["ABCD", "BE_KUL_Wave_1A", "BE_KUL_Wave_1B", "BE_KUL_Wave_23456", "SLOfit_lifelong", "SLOfit_students", "YFS"]
+}
